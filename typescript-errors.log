@@ -1,0 +1,108 @@
+app/(dashboard)/dashboard/menu/page.tsx(54,30): error TS2339: Property 'id' does not exist on type 'never'.
+app/(dashboard)/dashboard/menu/page.tsx(55,31): error TS2339: Property 'id' does not exist on type 'never'.
+app/(dashboard)/dashboard/menu/page.tsx(73,39): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "categories", never, "POST">', gave the following error.
+    Argument of type '{ tenant_id: string; name: string; sort_order: number; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "categories", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'tenant_id' does not exist in type 'never[]'.
+app/(dashboard)/dashboard/menu/page.tsx(166,48): error TS2345: Argument of type '{ tenant_id: string; category_id: string; name: string; description: string | null; base_price: number; weight: string | null; calories: number | null; tags: MenuItemTag[]; photo_url: string | null; options: { ...; }; }' is not assignable to parameter of type 'never'.
+app/(dashboard)/dashboard/menu/page.tsx(168,41): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "menu_items", never, "POST">', gave the following error.
+    Argument of type '{ sort_order: number; tenant_id: string; category_id: string; name: string; description: string | null; base_price: number; weight: string | null; calories: number | null; tags: MenuItemTag[]; photo_url: string | null; options: { ...; }; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "menu_items", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'sort_order' does not exist in type 'never[]'.
+app/(dashboard)/dashboard/menu/page.tsx(177,46): error TS2345: Argument of type '{ is_available: boolean; }' is not assignable to parameter of type 'never'.
+app/(dashboard)/dashboard/orders/page.tsx(82,15): error TS2345: Argument of type '(prev: OrderWithItems[]) => { status: string; id: string; tenant_id: string; qr_code_id: string | null; table_number: string | null; total: number; guest_note: string | null; created_at: string; updated_at: string; items: OrderItem[]; }[]' is not assignable to parameter of type 'SetStateAction<OrderWithItems[]>'.
+  Type '(prev: OrderWithItems[]) => { status: string; id: string; tenant_id: string; qr_code_id: string | null; table_number: string | null; total: number; guest_note: string | null; created_at: string; updated_at: string; items: OrderItem[]; }[]' is not assignable to type '(prevState: OrderWithItems[]) => OrderWithItems[]'.
+    Type '{ status: string; id: string; tenant_id: string; qr_code_id: string | null; table_number: string | null; total: number; guest_note: string | null; created_at: string; updated_at: string; items: OrderItem[]; }[]' is not assignable to type 'OrderWithItems[]'.
+      Type '{ status: string; id: string; tenant_id: string; qr_code_id: string | null; table_number: string | null; total: number; guest_note: string | null; created_at: string; updated_at: string; items: OrderItem[]; }' is not assignable to type 'OrderWithItems'.
+        Type '{ status: string; id: string; tenant_id: string; qr_code_id: string | null; table_number: string | null; total: number; guest_note: string | null; created_at: string; updated_at: string; items: OrderItem[]; }' is not assignable to type 'Order'.
+          Types of property 'status' are incompatible.
+            Type 'string' is not assignable to type 'OrderStatus'.
+app/(dashboard)/dashboard/orders/page.tsx(83,42): error TS2345: Argument of type '{ status: string; }' is not assignable to parameter of type 'never'.
+app/(dashboard)/dashboard/page.tsx(17,100): error TS2339: Property 'id' does not exist on type 'never'.
+app/(dashboard)/dashboard/page.tsx(18,100): error TS2339: Property 'id' does not exist on type 'never'.
+app/(dashboard)/dashboard/page.tsx(19,98): error TS2339: Property 'id' does not exist on type 'never'.
+app/(dashboard)/dashboard/page.tsx(20,96): error TS2339: Property 'id' does not exist on type 'never'.
+app/(dashboard)/dashboard/page.tsx(31,44): error TS2339: Property 'slug' does not exist on type 'never'.
+app/(dashboard)/dashboard/page.tsx(37,75): error TS2339: Property 'name' does not exist on type 'never'.
+app/(dashboard)/dashboard/page.tsx(70,35): error TS2339: Property 'slug' does not exist on type 'never'.
+app/(dashboard)/dashboard/qr/page.tsx(28,26): error TS2339: Property 'id' does not exist on type 'never'.
+app/(dashboard)/dashboard/qr/page.tsx(29,28): error TS2339: Property 'slug' does not exist on type 'never'.
+app/(dashboard)/dashboard/qr/page.tsx(30,27): error TS2339: Property 'id' does not exist on type 'never'.
+app/(dashboard)/dashboard/qr/page.tsx(42,14): error TS2339: Property 'id' does not exist on type 'never'.
+app/(dashboard)/dashboard/qr/page.tsx(42,47): error TS2339: Property 'url' does not exist on type 'never'.
+app/(dashboard)/dashboard/qr/page.tsx(54,37): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "qr_codes", never, "POST">', gave the following error.
+    Argument of type '{ tenant_id: string; label: string; table_number: string | null; url: string; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "qr_codes", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'tenant_id' does not exist in type 'never[]'.
+app/(dashboard)/dashboard/reviews/page.tsx(38,43): error TS2345: Argument of type '{ is_visible: boolean; }' is not assignable to parameter of type 'never'.
+app/(dashboard)/dashboard/reviews/page.tsx(45,43): error TS2345: Argument of type '{ reply: string; }' is not assignable to parameter of type 'never'.
+app/(dashboard)/dashboard/settings/components/GalleryManager.tsx(29,71): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "tenant_gallery", never, "POST">', gave the following error.
+    Argument of type '{ tenant_id: string; photo_url: string; sort_order: number; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "tenant_gallery", never, "POST">', gave the following error.
+    Argument of type '{ tenant_id: string; photo_url: string; sort_order: number; }' is not assignable to parameter of type 'never[]'.
+      Type '{ tenant_id: string; photo_url: string; sort_order: number; }' is missing the following properties from type 'never[]': length, pop, push, concat, and 35 more.
+app/(dashboard)/dashboard/settings/page.tsx(41,30): error TS2339: Property 'social_links' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(43,22): error TS2339: Property 'name' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(44,22): error TS2339: Property 'slug' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(45,29): error TS2339: Property 'description' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(46,25): error TS2339: Property 'address' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(47,23): error TS2339: Property 'phone' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(48,30): error TS2339: Property 'cuisine_type' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(49,27): error TS2339: Property 'avg_check' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(50,26): error TS2339: Property 'has_wifi' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(51,30): error TS2339: Property 'has_delivery' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(52,30): error TS2339: Property 'has_takeaway' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(53,31): error TS2339: Property 'primary_color' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(54,30): error TS2339: Property 'accent_color' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(55,23): error TS2339: Property 'theme' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(56,28): error TS2339: Property 'banner_url' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(57,26): error TS2339: Property 'logo_url' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(62,26): error TS2339: Property 'timezone' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(63,32): error TS2339: Property 'working_hours' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(66,104): error TS2339: Property 'id' does not exist on type 'never'.
+app/(dashboard)/dashboard/settings/page.tsx(104,61): error TS2345: Argument of type '{ name: string; slug: string; description: string; address: string; phone: string; cuisine_type: string; avg_check: number; has_wifi: boolean; has_delivery: boolean; has_takeaway: boolean; primary_color: string; ... 6 more ...; social_links: { ...; }; }' is not assignable to parameter of type 'never'.
+app/api/orders/route.ts(31,33): error TS2339: Property 'id' does not exist on type 'never'.
+app/api/orders/route.ts(34,31): error TS2339: Property 'id' does not exist on type 'never'.
+app/api/orders/route.ts(40,8): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "orders", never, "POST">', gave the following error.
+    Argument of type '{ tenant_id: any; qr_code_id: any; table_number: any; total: any; guest_note: any; status: string; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "orders", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'tenant_id' does not exist in type 'never[]'.
+app/api/orders/route.ts(41,27): error TS2339: Property 'id' does not exist on type 'never'.
+app/api/orders/route.ts(57,23): error TS2339: Property 'id' does not exist on type 'never'.
+app/api/orders/route.ts(73,62): error TS2339: Property 'id' does not exist on type 'never'.
+app/menu/[slug]/page.tsx(14,19): error TS2339: Property 'name' does not exist on type 'never'.
+app/menu/[slug]/page.tsx(15,25): error TS2339: Property 'description' does not exist on type 'never'.
+app/menu/[slug]/page.tsx(15,55): error TS2339: Property 'name' does not exist on type 'never'.
+app/menu/[slug]/page.tsx(35,68): error TS2339: Property 'id' does not exist on type 'never'.
+app/menu/[slug]/page.tsx(36,68): error TS2339: Property 'id' does not exist on type 'never'.
+app/menu/[slug]/page.tsx(37,70): error TS2339: Property 'id' does not exist on type 'never'.
+app/menu/[slug]/page.tsx(41,43): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "analytics_events", never, "POST">', gave the following error.
+    Argument of type '{ tenant_id: any; event_type: string; meta: { table_number: string | null; slug: string; }; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "analytics_events", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'tenant_id' does not exist in type 'never[]'.
+app/menu/[slug]/page.tsx(42,23): error TS2339: Property 'id' does not exist on type 'never'.
+app/menu/[slug]/page.tsx(51,28): error TS2339: Property 'id' does not exist on type 'never'.
+app/menu/[slug]/page.tsx(55,102): error TS2339: Property 'id' does not exist on type 'never'.
+app/menu/[slug]/page.tsx(58,42): error TS2339: Property 'rating' does not exist on type 'never'.
+app/menu/[slug]/PublicMenuClient.tsx(96,18): error TS18047: 'selectedItem' is possibly 'null'.
+app/menu/[slug]/PublicMenuClient.tsx(103,19): error TS18047: 'selectedItem' is possibly 'null'.
+app/menu/[slug]/PublicMenuClient.tsx(104,13): error TS18047: 'selectedItem' is possibly 'null'.
+app/menu/[slug]/PublicMenuClient.tsx(105,18): error TS18047: 'selectedItem' is possibly 'null'.
+app/menu/[slug]/PublicMenuClient.tsx(106,18): error TS18047: 'selectedItem' is possibly 'null'.
+app/onboarding/page.tsx(35,8): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "tenants", never, "POST">', gave the following error.
+    Argument of type '{ owner_id: string; name: string; slug: string; address: string | null; phone: string | null; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "tenants", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'owner_id' does not exist in type 'never[]'.
+app/onboarding/page.tsx(48,37): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "qr_codes", never, "POST">', gave the following error.
+    Argument of type '{ tenant_id: any; label: string; url: string; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "qr_codes", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'tenant_id' does not exist in type 'never[]'.
+app/onboarding/page.tsx(49,25): error TS2339: Property 'id' does not exist on type 'never'.
