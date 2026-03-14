@@ -29,7 +29,13 @@ export const ui = {
   size: { ru: 'Размер', uz: 'Hajmi', en: 'Size' },
   additions: { ru: 'Добавки', uz: 'Qo\'shimchalar', en: 'Additions' },
   total: { ru: 'Итого', uz: 'Jami', en: 'Total' },
-  added: { ru: 'Добавлено!', uz: 'Qo\'shildi!', en: 'Added!' }
+  added: { ru: 'Добавлено!', uz: 'Qo\'shildi!', en: 'Added!' },
+  tag_vegan: { ru: 'Веган', uz: 'Vegan', en: 'Vegan' },
+  tag_vegetarian: { ru: 'Вегетарианское', uz: 'Vegetarian', en: 'Vegetarian' },
+  tag_spicy: { ru: 'Острое', uz: 'Achchiq', en: 'Spicy' },
+  tag_hit: { ru: 'Хит', uz: 'Xit', en: 'Hit' },
+  tag_new: { ru: 'Новинка', uz: 'Yangi', en: 'New' },
+  tag_gluten_free: { ru: 'Без глютена', uz: 'Glyutensiz', en: 'Gluten free' }
 }
 
 export function t_ui(key: keyof typeof ui, lang: Lang): string {

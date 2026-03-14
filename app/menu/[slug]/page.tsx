@@ -31,10 +31,11 @@ export default async function PublicMenuPage({ params, searchParams }: Props) {
 
   if (!tenant) notFound()
 
-  const [{ data: categories }, { data: items }, { data: reviews }] = await Promise.all([
+  const [{ data: categories }, { data: items }, { data: reviews }, { data: allTags }] = await Promise.all([
     supabase.from('categories').select('*').eq('tenant_id', tenant.id).eq('is_visible', true).order('sort_order'),
     supabase.from('menu_items').select('*').eq('tenant_id', tenant.id).eq('is_hidden', false).eq('is_available', true).or('promo_ends_at.is.null,promo_ends_at.gte.now()').order('sort_order'),
     supabase.from('reviews').select('rating').eq('tenant_id', tenant.id).eq('is_visible', true),
+    supabase.from('menu_tags').select('*'),
   ])
 
   // Analytics: record QR scan / menu view (non-blocking)
@@ -73,6 +74,7 @@ export default async function PublicMenuPage({ params, searchParams }: Props) {
       avgRating={avgRating}
       reviewCount={reviews?.length ?? 0}
       tableNumber={table}
+      allTags={allTags ?? []}
     />
   )
 }

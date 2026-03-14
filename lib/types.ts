@@ -68,6 +68,18 @@ export interface MenuItemOptions {
 
 export type MenuItemTag = 'vegan' | 'vegetarian' | 'spicy' | 'hit' | 'new' | 'gluten_free'
 
+export interface MenuTag {
+  id: string
+  slug: string
+  name_ru: string
+  name_uz: string | null
+  name_en: string | null
+  icon: string | null
+  color: string | null
+  bg_color: string | null
+  created_at: string
+}
+
 export interface MenuItem {
   id: string
   tenant_id: string
@@ -236,6 +248,11 @@ export type Database = {
         Row: AnalyticsEvent
         Insert: Omit<AnalyticsEvent, 'id' | 'created_at'> & { id?: number; created_at?: string; qr_code_id?: string | null; item_id?: string | null; meta?: Json }
         Update: Partial<AnalyticsEvent>
+      }
+      menu_tags: {
+        Row: MenuTag
+        Insert: Omit<MenuTag, 'id' | 'created_at'> & { id?: string; created_at?: string }
+        Update: Partial<MenuTag>
       }
       tenant_members: {
         Row: TenantMember

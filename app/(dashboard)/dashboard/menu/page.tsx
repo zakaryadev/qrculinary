@@ -2,13 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Category, MenuItem, MenuItemTag, Tenant } from '@/lib/types'
-import { formatPrice, TAG_LABELS } from '@/lib/utils'
+import { Category, MenuItem, MenuItemTag, Tenant, MenuTag } from '@/lib/types'
+import { formatPrice } from '@/lib/utils'
+import * as Icons from 'lucide-react'
+import { t_ui } from '@/lib/utils/i18n'
 import { Plus, Pencil, Trash2, Eye, EyeOff, X, GripVertical } from 'lucide-react'
 import imageCompression from 'browser-image-compression'
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import Link from 'next/link'
 
 function SortableCategoryRow({ id, children }: { id: string, children: React.ReactNode }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
@@ -55,6 +58,7 @@ export default function MenuPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [availFilter, setAvailFilter] = useState<'all'|'available'|'hidden'>('all')
   const [filterTags, setFilterTags] = useState<MenuItemTag[]>([])
+  const [dbTags, setDbTags] = useState<MenuTag[]>([])
 
   // Modals
   const [showCatForm, setShowCatForm] = useState(false)
@@ -131,10 +135,18 @@ export default function MenuPage() {
   const fetchCategories = async (tid: string) => {
     const { data } = await supabase.from('categories').select('*').eq('tenant_id', tid).order('sort_order')
     setCategories(data ?? [])
+    
+    fetchTags()
+
     if (data?.length && !selectedCat) {
       setSelectedCat(data[0].id)
       fetchItems(tid, data[0].id)
     }
+  }
+
+  const fetchTags = async () => {
+    const { data } = await supabase.from('menu_tags').select('*').order('slug')
+    setDbTags(data ?? [])
   }
 
   const fetchItems = async (tid: string, catId: string) => {
@@ -366,12 +378,18 @@ export default function MenuPage() {
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Categories sidebar / Mobile horizontal nav */}
         <div className="w-full lg:w-60 flex-shrink-0">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-3 group">
             <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>КАТЕГОРИИ</span>
-            <button onClick={() => setShowCatForm(true)} className="w-6 h-6 flex items-center justify-center rounded"
-              style={{ color: 'var(--brand)', background: 'rgba(62,207,142,0.12)' }}>
-              <Plus size={14} />
-            </button>
+            <div className="flex gap-1">
+              <Link href="/dashboard/tags" className="w-6 h-6 flex items-center justify-center rounded transition-all hover:bg-black/5 dark:hover:bg-white/5"
+                title="Управление тегами" style={{ color: 'var(--text-tertiary)' }}>
+                <Icons.Settings size={14} />
+              </Link>
+              <button onClick={() => setShowCatForm(true)} className="w-6 h-6 flex items-center justify-center rounded"
+                style={{ color: 'var(--brand)', background: 'rgba(62,207,142,0.12)' }}>
+                <Plus size={14} />
+              </button>
+            </div>
           </div>
 
           {showCatForm && (
@@ -461,7 +479,7 @@ export default function MenuPage() {
                     onChange={e => setSearchQuery(e.target.value)}
                     className="input w-full pl-9 py-2 text-sm"
                   />
-                  <div className="absolute left-3 top-1/2 -translate-y-1/2 opacity-50" style={{ pointerEvents: 'none' }}>🔍</div>
+                  {/* <div className="absolute left-3 top-1/2 -translate-y-1/2 opacity-50" style={{ pointerEvents: 'none' }}>🔍</div> */}
                   {searchQuery && (
                     <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100">
                       <X size={14} />
@@ -477,16 +495,16 @@ export default function MenuPage() {
               </div>
               
               <div className="flex gap-2 flex-wrap">
-                {(Object.keys(TAG_LABELS) as MenuItemTag[]).map(tag => (
-                  <button key={tag} onClick={() => toggleFilterTag(tag)}
+                {dbTags.map(tag => (
+                  <button key={tag.id} onClick={() => toggleFilterTag(tag.slug as any)}
                     className="text-xs px-2.5 py-1 rounded-md border transition-all"
                     style={{
-                      background: filterTags.includes(tag) ? 'var(--brand)' : 'var(--surface)',
-                      color: filterTags.includes(tag) ? '#000' : 'var(--text-secondary)',
-                      borderColor: filterTags.includes(tag) ? 'var(--brand)' : 'var(--border)',
-                      fontWeight: filterTags.includes(tag) ? 600 : 400
+                      background: filterTags.includes(tag.slug as any) ? 'var(--brand)' : 'var(--surface)',
+                      color: filterTags.includes(tag.slug as any) ? '#000' : 'var(--text-secondary)',
+                      borderColor: filterTags.includes(tag.slug as any) ? 'var(--brand)' : 'var(--border)',
+                      fontWeight: filterTags.includes(tag.slug as any) ? 600 : 400
                     }}>
-                    {TAG_LABELS[tag].label}
+                    {tag.name_ru}
                   </button>
                 ))}
                 {(searchQuery || availFilter !== 'all' || filterTags.length > 0) && (
@@ -533,11 +551,21 @@ export default function MenuPage() {
                         {item.weight && <span className="ml-2" style={{ color: 'var(--text-muted)' }}>· {item.weight}</span>}
                       </div>
                       <div className="flex gap-1 mt-1 flex-wrap">
-                        {item.tags.map(tag => (
-                          <span key={tag} className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)' }}>
-                            {TAG_LABELS[tag]?.emoji} {TAG_LABELS[tag]?.label}
-                          </span>
-                        ))}
+                        {item.tags.map(tagSlug => {
+                          const tag = dbTags.find(t => t.slug === tagSlug)
+                          const TagIcon = tag?.icon ? (Icons as any)[tag.icon] : null
+                          return (
+                            <span key={tagSlug} className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider" 
+                              style={{ 
+                                background: tag?.bg_color || 'var(--surface-2)', 
+                                color: tag?.color || 'var(--text-muted)',
+                                border: tag?.color ? `1px solid ${tag.color}30` : 'none'
+                              }}>
+                              {TagIcon && <TagIcon size={10} />}
+                              {tag?.name_ru || tagSlug}
+                            </span>
+                          )
+                        })}
                       </div>
                     </div>
 
@@ -607,17 +635,22 @@ export default function MenuPage() {
               <div>
                 <label className="label">Теги</label>
                 <div className="flex flex-wrap gap-2">
-                  {(Object.keys(TAG_LABELS) as MenuItemTag[]).map(tag => (
-                    <button key={tag} type="button" onClick={() => toggleTag(tag)}
-                      className="text-xs px-3 py-1.5 rounded-full border transition-all"
-                      style={{
-                        background: itemForm.tags.includes(tag) ? 'rgba(62,207,142,0.12)' : 'transparent',
-                        color: itemForm.tags.includes(tag) ? 'var(--brand)' : 'var(--text-secondary)',
-                        borderColor: itemForm.tags.includes(tag) ? 'var(--brand)' : 'var(--border)',
-                      }}>
-                      {TAG_LABELS[tag].emoji} {TAG_LABELS[tag].label}
-                    </button>
-                  ))}
+                  {dbTags.map(tag => {
+                    const TagIcon = tag.icon ? (Icons as any)[tag.icon] : null
+                    const isSelected = itemForm.tags.includes(tag.slug as any)
+                    return (
+                      <button key={tag.id} type="button" onClick={() => toggleTag(tag.slug as any)}
+                        className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border transition-all"
+                        style={{
+                          background: isSelected ? 'rgba(62,207,142,0.12)' : 'transparent',
+                          color: isSelected ? 'var(--brand)' : 'var(--text-secondary)',
+                          borderColor: isSelected ? 'var(--brand)' : 'var(--border)',
+                        }}>
+                        {TagIcon && <TagIcon size={12} />}
+                        {tag.name_ru}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 

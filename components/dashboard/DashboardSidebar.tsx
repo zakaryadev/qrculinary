@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { LayoutDashboard, UtensilsCrossed, QrCode, ShoppingBag, Settings, LogOut, ExternalLink, Star, History, Volume2, VolumeX, BarChart3, BadgePercent, MapPin, Menu, X } from 'lucide-react'
+import { LayoutDashboard, UtensilsCrossed, QrCode, ShoppingBag, Settings, LogOut, ExternalLink, Star, History, Volume2, VolumeX, BarChart3, BadgePercent, MapPin, Menu, X, Tags } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useNotifications } from './OrderNotificationProvider'
 import { useState, useEffect } from 'react'
@@ -14,6 +14,7 @@ interface Props {
 const NAV = [
   { href: '/dashboard',           label: 'Обзор',     icon: LayoutDashboard },
   { href: '/dashboard/menu',      label: 'Меню',      icon: UtensilsCrossed },
+  { href: '/dashboard/tags',      label: 'Теги',      icon: Tags },
   { href: '/dashboard/promotions',label: 'Акции',     icon: BadgePercent },
   { href: '/dashboard/branches',  label: 'Филиалы',   icon: MapPin },
   { href: '/dashboard/qr',        label: 'QR-коды',   icon: QrCode },

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Tenant, Category, MenuItem, MenuItemOptions, TenantGallery } from '@/lib/types'
-import { formatPrice, TAG_LABELS } from '@/lib/utils'
+import { Tenant, Category, MenuItem, MenuItemOptions, TenantGallery, MenuItemTag, MenuTag } from '@/lib/types'
+import { formatPrice } from '@/lib/utils'
 import { useCartStore } from '@/lib/cart/store'
 import { X, MapPin, Phone, Star, ShoppingCart, Info, Clock, Wifi, ShoppingBag, ExternalLink, Plus, ChefHat, Banknote, UtensilsCrossed, Search } from 'lucide-react'
 import { trackEvent } from '@/lib/analytics'
@@ -23,11 +23,11 @@ interface Props {
   avgRating: number | null
   reviewCount: number
   tableNumber?: string
+  allTags: MenuTag[]
 }
 
-const ALL_TAGS = Object.keys(TAG_LABELS) as (keyof typeof TAG_LABELS)[]
 
-export default function PublicMenuClient({ tenant, categories, items, gallery, avgRating, reviewCount, tableNumber }: Props) {
+export default function PublicMenuClient({ tenant, categories, items, gallery, avgRating, reviewCount, tableNumber, allTags }: Props) {
   const router = useRouter()
   const [lang, setLang] = useState<Lang>('ru')
   const [activeCat, setActiveCat] = useState<string | null>(null)
@@ -72,12 +72,12 @@ export default function PublicMenuClient({ tenant, categories, items, gallery, a
   const toggleTag = (tag: string) =>
     setActiveTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag])
 
-  const availableTags = ALL_TAGS.filter(tag => 
+  const availableTagsSlugs = allTags.filter(tag => 
     items.some(item => 
       (!activeCat || item.category_id === activeCat) && 
-      item.tags.includes(tag as any)
+      item.tags.includes(tag.slug as any)
     )
-  )
+  ).map(t => t.slug)
 
   const filtered = items.filter(item => {
     if (activeCat && item.category_id !== activeCat) return false
@@ -157,6 +157,14 @@ export default function PublicMenuClient({ tenant, categories, items, gallery, a
       background: bgColor, color: textColor,
       '--brand': brandColor, '--border': borderColor, '--surface': surfaceColor, '--text-primary': textColor, '--text-muted': textMuted
     } as React.CSSProperties}>
+      {/* ─── Fixed Language Switcher ─── */}
+      <div className="fixed top-4 right-4 z-[60] flex items-center gap-1 p-1 rounded-xl border bg-black/30 backdrop-blur-md shadow-xl transition-all active:scale-95" 
+           style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
+        <button onClick={() => changeLang('ru')} className={`px-3 py-1.5 text-xs font-black rounded-lg transition-all ${lang === 'ru' ? 'bg-[var(--brand)] text-black shadow-sm' : 'text-white/70 hover:text-white'}`}>RU</button>
+        <button onClick={() => changeLang('uz')} className={`px-3 py-1.5 text-xs font-black rounded-lg transition-all ${lang === 'uz' ? 'bg-[var(--brand)] text-black shadow-sm' : 'text-white/70 hover:text-white'}`}>UZ</button>
+        <button onClick={() => changeLang('en')} className={`px-3 py-1.5 text-xs font-black rounded-lg transition-all ${lang === 'en' ? 'bg-[var(--brand)] text-black shadow-sm' : 'text-white/70 hover:text-white'}`}>EN</button>
+      </div>
+
       {/* Banner */}
       <div className="h-40 sm:h-56 w-full overflow-hidden relative" style={{ background: `linear-gradient(135deg, ${brandColor}40, ${brandColor}10)` }}>
         {tenant.banner_url && (
@@ -196,16 +204,10 @@ export default function PublicMenuClient({ tenant, categories, items, gallery, a
                       </a>
                     </div>
                   )}
-                </div>
               </div>
             </div>
-            {/* Language Switcher */}
-            <div className="flex bg-[var(--surface-2)] rounded-lg p-1 border shadow-sm flex-shrink-0" style={{ borderColor: 'var(--border)' }}>
-              <button onClick={() => changeLang('ru')} className={`px-2 py-1 text-xs font-bold rounded-md transition-all ${lang === 'ru' ? 'bg-[var(--brand)] text-black' : 'text-[var(--text-muted)]'}`}>RU</button>
-              <button onClick={() => changeLang('uz')} className={`px-2 py-1 text-xs font-bold rounded-md transition-all ${lang === 'uz' ? 'bg-[var(--brand)] text-black' : 'text-[var(--text-muted)]'}`}>UZ</button>
-              <button onClick={() => changeLang('en')} className={`px-2 py-1 text-xs font-bold rounded-md transition-all ${lang === 'en' ? 'bg-[var(--brand)] text-black' : 'text-[var(--text-muted)]'}`}>EN</button>
-            </div>
           </div>
+        </div>
           
           {tenant.description && (
             <p className="text-sm mt-4 leading-relaxed" style={{ color: textMuted }}>
@@ -371,18 +373,18 @@ export default function PublicMenuClient({ tenant, categories, items, gallery, a
         </div>
 
         {/* Tags */}
-        {availableTags.length > 0 && (
+        {availableTagsSlugs.length > 0 && (
           <div className="overflow-x-auto hide-scrollbar -mx-4 px-4">
             <div className="flex gap-2 min-w-max pb-1">
-              {availableTags.map(tag => (
-                <button key={tag} onClick={() => toggleTag(tag)}
+              {allTags.filter(t => availableTagsSlugs.includes(t.slug)).map(tag => (
+                <button key={tag.id} onClick={() => toggleTag(tag.slug)}
                   className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border whitespace-nowrap shadow-sm hover:scale-[1.02] active:scale-95"
                   style={{
-                    background: activeTags.includes(tag) ? `${brandColor}18` : surfaceColor,
-                    color: activeTags.includes(tag) ? brandColor : textMuted,
-                    borderColor: activeTags.includes(tag) ? brandColor : borderColor,
+                    background: activeTags.includes(tag.slug) ? `${brandColor}18` : surfaceColor,
+                    color: activeTags.includes(tag.slug) ? brandColor : textMuted,
+                    borderColor: activeTags.includes(tag.slug) ? brandColor : borderColor,
                   }}>
-                  {TAG_LABELS[tag].label}
+                  {lang === 'uz' ? tag.name_uz : lang === 'en' ? tag.name_en : tag.name_ru}
                 </button>
               ))}
             </div>
@@ -443,7 +445,7 @@ export default function PublicMenuClient({ tenant, categories, items, gallery, a
                 </div>
                 <div>
                   <div className="mb-2">
-                    <TagBadgeList tags={item.tags as any} />
+                    <TagBadgeList tags={allTags} activeSlugs={item.tags as any} lang={lang} />
                   </div>
                   <div className="flex items-center justify-between mt-auto">
                     <div className="leading-none">
@@ -582,7 +584,7 @@ export default function PublicMenuClient({ tenant, categories, items, gallery, a
 
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-6">
-                <TagBadgeList tags={selectedItem.tags as any} />
+                <TagBadgeList tags={allTags} activeSlugs={selectedItem.tags as any} lang={lang} />
               </div>
             </div>
 
