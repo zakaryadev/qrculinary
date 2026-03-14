@@ -37,20 +37,26 @@ export default async function PublicMenuPage({ params, searchParams }: Props) {
     supabase.from('reviews').select('rating').eq('tenant_id', tenant.id).eq('is_visible', true),
   ])
 
-  // Analytics: record QR scan / menu view
-  await supabase.from('analytics_events').insert({
-    tenant_id: tenant.id,
-    event_type: table ? 'qr_scan' : 'menu_view',
-    meta: { table_number: table ?? null, slug },
-  })
+  // Analytics: record QR scan / menu view (non-blocking)
+  const analyticsPromise = (async () => {
+    try {
+      await supabase.from('analytics_events').insert({
+        tenant_id: tenant.id,
+        event_type: table ? 'qr_scan' : 'menu_view',
+        meta: { table_number: table ?? null, slug },
+      })
 
-  // Increment scan_count on the matching QR code (via RPC to bypass RLS)
-  if (table) {
-    await supabase.rpc('increment_qr_scan', {
-      qr_table_number: table,
-      qr_tenant_id: tenant.id,
-    } as any)
-  }
+      // Increment scan_count on the matching QR code (via RPC to bypass RLS)
+      if (table) {
+        await supabase.rpc('increment_qr_scan', {
+          qr_table_number: table,
+          qr_tenant_id: tenant.id,
+        } as any)
+      }
+    } catch (e) {
+      console.error('Analytics error:', e)
+    }
+  })()
 
   const { data: gallery } = await supabase.from('tenant_gallery').select('*').eq('tenant_id', tenant.id).order('sort_order')
 
