@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { QRCode, Branch } from '@/lib/types'
 import { downloadQRPNG, generateQRDataURL } from '@/lib/qr/generate'
+import { getAppUrl } from '@/lib/app-url'
 import { Plus, Download, Trash2, QrCode, Printer } from 'lucide-react'
 
 export default function QRPage() {
@@ -20,7 +21,7 @@ export default function QRPage() {
   const [branchId, setBranchId] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://qrculinary.com'
+  const appUrl = getAppUrl()
 
   // Compute preview URL based on form state
   const selectedBranch = branches.find(b => b.id === branchId)

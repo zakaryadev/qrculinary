@@ -13,7 +13,6 @@ import { TagBadgeList } from '@/components/ui/TagBadge'
 import { SocialLinks } from '@/components/ui/SocialLinks'
 import { CallButton } from '@/components/ui/CallButton'
 import { formatPhone } from '@/lib/utils/phone'
-import { config } from 'process'
 
 interface Props {
   tenant: Tenant
@@ -155,7 +154,12 @@ export default function PublicMenuClient({ tenant, categories, items, gallery, a
   return (
     <div className="min-h-screen pb-28" style={{ 
       background: bgColor, color: textColor,
-      '--brand': brandColor, '--border': borderColor, '--surface': surfaceColor, '--text-primary': textColor, '--text-muted': textMuted
+      '--brand': brandColor,
+      '--bg': bgColor,
+      '--border': borderColor,
+      '--surface': surfaceColor,
+      '--text-primary': textColor,
+      '--text-muted': textMuted,
     } as React.CSSProperties}>
       {/* ─── Fixed Language Switcher ─── */}
       <div className="fixed top-4 right-4 z-[60] flex items-center gap-1 p-1 rounded-xl border bg-black/30 backdrop-blur-md shadow-xl transition-all active:scale-95" 

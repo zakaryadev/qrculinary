@@ -39,9 +39,9 @@ export default async function HomePage() {
           <Link href="/auth/register" className="btn-primary text-base py-3 px-8 animate-pulse-glow">
             Создать меню бесплатно →
           </Link>
-          <Link href="/menu/mama-roma" className="btn-ghost text-base py-3 px-8">
+          <a href={`/menu/${process.env.NEXT_PUBLIC_DEMO_SLUG || 'mama-roma'}`} className="btn-ghost text-base py-3 px-8">
             Посмотреть демо
-          </Link>
+          </a>
         </div>
 
         {/* Stats */}

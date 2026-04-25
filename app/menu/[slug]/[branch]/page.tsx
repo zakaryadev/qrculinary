@@ -48,10 +48,11 @@ export default async function BranchMenuPage({ params, searchParams }: Props) {
   if (!branch) notFound()
 
   // 3. Load menu data (shared across all branches of this tenant)
-  const [{ data: categories }, { data: items }, { data: reviews }] = await Promise.all([
+  const [{ data: categories }, { data: items }, { data: reviews }, { data: allTags }] = await Promise.all([
     supabase.from('categories').select('*').eq('tenant_id', tenant.id).eq('is_visible', true).order('sort_order'),
     supabase.from('menu_items').select('*').eq('tenant_id', tenant.id).eq('is_hidden', false).eq('is_available', true).or('promo_ends_at.is.null,promo_ends_at.gte.now()').order('sort_order'),
     supabase.from('reviews').select('rating').eq('tenant_id', tenant.id).eq('is_visible', true),
+    supabase.from('menu_tags').select('*'),
   ])
 
   // 4. Analytics
@@ -92,6 +93,7 @@ export default async function BranchMenuPage({ params, searchParams }: Props) {
       avgRating={avgRating}
       reviewCount={reviews?.length ?? 0}
       tableNumber={table}
+      allTags={allTags ?? []}
     />
   )
 }

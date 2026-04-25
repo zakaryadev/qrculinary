@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { getAppUrl } from '@/lib/app-url'
 import { slugify } from '@/lib/utils'
 
 export default function OnboardingPage() {
@@ -44,7 +45,7 @@ export default function OnboardingPage() {
     }
 
     // Create default main QR
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://qrculinary.com'
+    const appUrl = getAppUrl()
     await supabase.from('qr_codes').insert({
       tenant_id: tenant.id,
       label: 'Главный',

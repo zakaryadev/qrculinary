@@ -9,6 +9,7 @@ export default function RegisterPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [emailSent, setEmailSent] = useState(false)
@@ -20,8 +21,20 @@ export default function RegisterPage() {
     setLoading(true)
     setError(null)
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Введите корректный email адрес')
+      setLoading(false)
+      return
+    }
+
     if (password.length < 8) {
       setError('Пароль должен быть минимум 8 символов')
+      setLoading(false)
+      return
+    }
+
+    if (password !== confirmPassword) {
+      setError('Пароли не совпадают')
       setLoading(false)
       return
     }
@@ -121,6 +134,18 @@ export default function RegisterPage() {
                 placeholder="Минимум 8 символов"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="label">Подтвердите пароль</label>
+              <input
+                className="input"
+                type="password"
+                placeholder="Повторите пароль"
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
                 required
               />
             </div>

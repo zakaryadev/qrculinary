@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getAppUrl } from '@/lib/app-url'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { UtensilsCrossed, QrCode, Star, ShoppingBag } from 'lucide-react'
@@ -27,7 +28,7 @@ export default async function DashboardPage() {
     { label: 'Заказов всего',  value: ordersCount ?? 0,   icon: ShoppingBag,     href: '/dashboard/orders', color: '#F87171' },
   ]
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://qrculinary.com'
+  const appUrl = getAppUrl()
   const menuUrl = `${appUrl}/menu/${tenant.slug}`
 
   return (
